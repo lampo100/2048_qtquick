@@ -18,11 +18,13 @@ Rectangle {
         anchors.fill: parent
         spacing: 0
 
-        Row {
+        Rectangle {
             id: labelsRow
-            width: column.width
+            width: gameBoard.width
             height: column.height / 5
-            spacing: labelsRow.width / 8
+            color: "#fbf8f1"
+            anchors.leftMargin: gameBoard.x
+            anchors.left: parent.left
 
             Rectangle {
                 id: rectangle
@@ -38,7 +40,11 @@ Rectangle {
                     id: gameLabel
                     color: "#7a7168"
                     text: qsTr("2048")
-                    font.pixelSize: rectangle.width / 3
+                    font.capitalization: Font.AllUppercase
+                    style: Text.Normal
+                    font.weight: Font.ExtraBold
+                    font.pixelSize: rectangle.width
+                                    > rectangle.height ? rectangle.width / 3 : rectangle.height / 3
                     font.strikeout: false
                     font.family: "Times New Roman"
                     horizontalAlignment: Text.AlignHCenter
@@ -56,12 +62,15 @@ Rectangle {
                 id: scoresRow
                 width: labelsRow.width - rectangle.width - labelsRow.spacing
                 height: labelsRow.height
-                spacing: 3
+                anchors.leftMargin: labelsRow.width / 2
+                anchors.left: parent.left
+                spacing: 2
+                opacity: 1
 
                 Rectangle {
                     id: scoreRectangle
-                    width: scoresRow.width / 2 - scoresRow.spacing
-                    height: labelsRow.height / 2.5
+                    width: (gameBoard.width / 2 - gameBoard.border.width - scoresRow.spacing) / 2
+                    height: scoreRectangle.width / 2.5
                     color: "#bcaea1"
                     radius: 4
                     anchors.topMargin: scoresRow.height / 8
@@ -98,8 +107,8 @@ Rectangle {
 
                 Rectangle {
                     id: highScoreRectangle
-                    width: scoresRow.width / 2 - scoresRow.spacing
-                    height: labelsRow.height / 2.5
+                    width: scoreRectangle.width
+                    height: highScoreRectangle.width / 2.5
                     color: "#bcaea1"
                     radius: 4
                     border.width: 0
@@ -139,15 +148,28 @@ Rectangle {
 
         Rectangle {
             id: gameBoard
-            width: column.width <= column.height - labelsRow.height ? column.width :  column.height - labelsRow.height
+            width: column.width <= column.height
+                   - labelsRow.height ? column.width : column.height - labelsRow.height
             height: gameBoard.width
             color: "#bbab9c"
             radius: 21
-            anchors.leftMargin: (column.width - gameBoard.width )/ 5
+            anchors.leftMargin: (column.width - gameBoard.width) / 2
             anchors.left: parent.left
             border.width: gameBoard.radius - 5
             border.color: "#fbf8f1"
             clip: false
+
+            Cell {
+                id: cell
+            }
+
+            Cell {
+                id: cell1
+            }
+
+            Cell {
+                id: cell2
+            }
         }
     }
 }
