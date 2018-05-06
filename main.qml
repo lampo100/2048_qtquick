@@ -17,26 +17,22 @@ Window {
         focus: true
         Keys.onPressed: {
             if (event.key == Qt.Key_R){
-                GameLogic.startNewGamee();
+                GameLogic.startNewGame();
             }
 
             if (event.key == Qt.Key_A) {
-                console.log("move left");
                 GameLogic.left();
                 GameLogic.spawnNewBlock();
             }
             if(event.key == Qt.Key_D){
-                console.log("move right");
                 GameLogic.right();
                 GameLogic.spawnNewBlock();
             }
             if(event.key == Qt.Key_W){
-                console.log("move up");
                 GameLogic.up();
                 GameLogic.spawnNewBlock();
             }
             if(event.key == Qt.Key_S){
-                console.log("move down");
                 GameLogic.down();
                 GameLogic.spawnNewBlock();
             }

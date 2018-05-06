@@ -38,7 +38,6 @@ function startNewGame() {
     //Create two random blocks
     var r = randomInt(0, 4);
     var c = randomInt(0, 4);
-    console.log(String(r) + " " + String(c));
     if(board[index(r, c)] === null)
         createBlock(1, 1);
 
@@ -48,7 +47,6 @@ function startNewGame() {
         r2 = randomInt(0, 4);
         c2 = randomInt(0, 4);
     }
-    console.log(String(r2) + " " + String(c2));
     if(board[index(0, 2)] === null)
         createBlock(2, 1);
 }
@@ -103,15 +101,10 @@ function left(){
                         finalDestination[index(k, i)] = index(k, j);
                         board[index(k, j)] = currentTile;
                         board[index(k, i)] = null;
-                        console.log("FD[" + String(index(k, i)) + "] to " + String(k) + "," + String(j))
                         break;
                     }
             }
         }
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log(k);
     }
 
     for(k = 0; k < 4; k++){
@@ -119,7 +112,6 @@ function left(){
             if(board[index(k, i)] !== null){
                 currentTile = board[index(k, i)];
                 if(board[index(k, i+1)] !== null && board[index(k, i+1)].score == currentTile.score){
-                    console.log("Joining: " + index(k, i) + " and " + index(k, i+1));
                     var found = false;
                     // First we should check if the block that is being absorbed has been already moved. If so then we need to change his final destination AT THE ORIGINAL PLACE IN ARRAY
                     for(var z = 0; z < maxIndex; z++){
@@ -139,17 +131,10 @@ function left(){
 
                     //Also double the score
                     board[index(k, i)].score *= 2;
+                    rootWindow.score.text = board[index(k, i)].score + Number(rootWindow.score.text);
                 }
             }
         }
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after2]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after2](index:" + k + "): " + finalDestination[k]);
     }
     // THIRD PHASE
     for(k = 0; k < 4; k++){
@@ -158,8 +143,6 @@ function left(){
                 currentTile = board[index(k, i)];
                 for(j = 0; j < i; j++)
                     if(board[index(k, j)] === null){
-                        console.log("(k, i): " + index(k, i));
-                        console.log("(k, j): " + index(k, j));
                         found = false;
                         for(z = 0; z < maxIndex; z++){
                             if(finalDestination[z] === index(k, i)){
@@ -183,14 +166,6 @@ function left(){
             }
         }
     }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after3]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after3](index:" + k + "): " + finalDestination[k]);
-    }
 
 
     for (i = 0; i < maxIndex; i++) {
@@ -201,7 +176,6 @@ function left(){
     }
     for (i = 0; i < blocksToKill.length; i++){
         if(blocksToKill[i] !== null){
-            console.log("Killing: " + blocksToKill[i]);
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
@@ -232,22 +206,18 @@ function right(){
                         finalDestination[index(k, i)] = index(k, j);
                         board[index(k, j)] = currentTile;
                         board[index(k, i)] = null;
-                        console.log("FD[" + String(index(k, i)) + "] to " + String(k) + "," + String(j))
                         break;
                     }
             }
         }
     }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log(k);
-    }
+
+    // Second phase
     for(k = 0; k < 4; k++){
         for(i = 3; i > 0; i--){
             if(board[index(k, i)] !== null){
                 currentTile = board[index(k, i)];
                 if(board[index(k, i-1)] !== null && board[index(k, i-1)].score == currentTile.score){
-                    console.log("Joining: " + index(k, i) + " and " + index(k, i-1));
                     var found = false;
                     // First we should check if the block that is being absorbed has been already moved. If so then we need to change his final destination AT THE ORIGINAL PLACE IN ARRAY
                     for(var z = 0; z < maxIndex; z++){
@@ -267,17 +237,11 @@ function right(){
 
                     //Also double the score
                     board[index(k, i)].score *= 2;
+                    rootWindow.score.text = board[index(k, i)].score + Number(rootWindow.score.text);
+
                 }
             }
         }
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after2]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after2](index:" + k + "): " + finalDestination[k]);
     }
 
     // THIRD PHASE
@@ -287,8 +251,6 @@ function right(){
                 currentTile = board[index(k, i)];
                 for(j = 3; j > i; j--)
                     if(board[index(k, j)] === null){
-                        console.log("(k, i): " + index(k, i));
-                        console.log("(k, j): " + index(k, j));
                         found = false;
                         for(z = 0; z < maxIndex; z++){
                             if(finalDestination[z] === index(k, i)){
@@ -312,15 +274,6 @@ function right(){
             }
         }
     }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after3]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after3](index:" + k + "): " + finalDestination[k]);
-    }
-
 
     for (i = 0; i < maxIndex; i++) {
         if (finalDestination[i] !== null){
@@ -330,7 +283,6 @@ function right(){
     }
     for (i = 0; i < blocksToKill.length; i++){
         if(blocksToKill[i] !== null){
-            console.log("Killing: " + blocksToKill[i]);
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
@@ -360,15 +312,10 @@ function up(){
                         finalDestination[index(i, k)] = index(j, k);
                         board[index(j, k)] = currentTile;
                         board[index(i, k)] = null;
-                        console.log("FD[" + String(index(i, k)) + "] to " + String(j) + "," + String(k))
                         break;
                     }
             }
         }
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log(k);
     }
 
     for(k = 0; k < 4; k++){
@@ -395,18 +342,13 @@ function up(){
 
                     //Also double the score
                     board[index(i, k)].score *= 2;
+                    rootWindow.score.text = board[index(i, k)].score + Number(rootWindow.score.text);
+
                 }
             }
         }
     }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after2]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after2](index:" + k + "): " + finalDestination[k]);
-    }
+
     // THIRD PHASE
     for(k = 0; k < 4; k++){
         for(i = 0; i < 4; i++){
@@ -437,14 +379,6 @@ function up(){
             }
         }
     }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after3]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after3](index:" + k + "): " + finalDestination[k]);
-    }
 
     for (i = 0; i < maxIndex; i++) {
         if (finalDestination[i] !== null){
@@ -454,7 +388,6 @@ function up(){
     }
     for (i = 0; i < blocksToKill.length; i++){
         if(blocksToKill[i] !== null){
-            console.log("Killing: " + blocksToKill[i]);
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
@@ -489,10 +422,6 @@ function down(){
             }
         }
     }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log(k);
-    }
 
     for(k = 0; k < 4; k++){
         for(i = 3; i > 0; i--){
@@ -518,17 +447,11 @@ function down(){
 
                     //Also double the score
                     board[index(i, k)].score *= 2;
+                    rootWindow.score.text = board[index(i, k)].score + Number(rootWindow.score.text);
+
                 }
             }
         }
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after2]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after2](index:" + k + "): " + finalDestination[k]);
     }
 
     // THIRD PHASE
@@ -561,15 +484,6 @@ function down(){
             }
         }
     }
-    for(k = 0; k < maxIndex; k++){
-        if(board[k] !== null)
-            console.log("Board[after3]: " + k);
-    }
-    for(k = 0; k < maxIndex; k++){
-        if(finalDestination[k] !== null)
-            console.log("FD[after3](index:" + k + "): " + finalDestination[k]);
-    }
-
     for (i = 0; i < maxIndex; i++) {
         if (finalDestination[i] !== null){
             startingBoard[i].row = Math.floor(finalDestination[i] / maxRow);
@@ -578,7 +492,6 @@ function down(){
     }
     for (i = 0; i < blocksToKill.length; i++){
         if(blocksToKill[i] !== null){
-            console.log("Killing: " + blocksToKill[i]);
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
