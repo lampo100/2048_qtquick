@@ -25,6 +25,11 @@ Window {
                 GameLogic.left();
                 GameLogic.spawnNewBlock();
             }
+            if(event.key == Qt.Key_D){
+                console.log("move right");
+                GameLogic.right();
+                GameLogic.spawnNewBlock();
+            }
         }
     }
 
