@@ -1,11 +1,11 @@
 import QtQuick 2.6
-
 Rectangle {
     id: root
 
     width: 360
     height: 480
     color: "#faf7f0"
+    property alias gameBoard: gameBoard
     property alias highScore: highScore
     property alias score: score
     border.width: 0
@@ -151,7 +151,7 @@ Rectangle {
             width: column.width <= column.height
                    - labelsRow.height ? column.width : column.height - labelsRow.height
             height: gameBoard.width
-            color: "#bbab9c"
+            color: "#beae9f"
             radius: 21
             anchors.leftMargin: (column.width - gameBoard.width) / 2
             anchors.left: parent.left
@@ -159,16 +159,165 @@ Rectangle {
             border.color: "#fbf8f1"
             clip: false
 
-            Cell {
-                id: cell
+            Rectangle {
+                id: rectangle1
+                x: (parent.border.width + 5) + 0 * width + 0 * 5
+                y: (parent.border.width + 5) + 0 * width + 0 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
             }
 
-            Cell {
-                id: cell1
+            Rectangle {
+                id: rectangle2
+                x: (parent.border.width + 5) +1 * width + 1* 5
+                y: (parent.border.width + 5) + 0 * width + 0 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
             }
 
-            Cell {
-                id: cell2
+            Rectangle {
+                id: rectangle3
+                x: (parent.border.width + 5) +2 * width + 2 * 5
+                y: (parent.border.width + 5) + 0 * width + 0 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle4
+                x: (parent.border.width + 5) + 3 * width +3* 5
+                y: (parent.border.width + 5) + 0 * width + 0 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle5
+                x: (parent.border.width + 5) + 0 * width + 0 * 5
+                y: (parent.border.width + 5) +1 * width + 1 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle6
+                x: (parent.border.width + 5) + 1 * width +1 * 5
+                y: (parent.border.width + 5) +1 * width + 1 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle7
+                x: (parent.border.width + 5) + 2 * width +2 * 5
+                y: (parent.border.width + 5) +1 * width + 1 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle8
+                x: (parent.border.width + 5) + 3 * width + 3 * 5
+                y: (parent.border.width + 5) +1 * width + 1 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle9
+                x: 21
+                y: (parent.border.width + 5) +2 * width + 2 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+                border.color: "#cdc1b5"
+            }
+
+            Rectangle {
+                id: rectangle10
+                x: (parent.border.width + 5) + 1 * width + 1 * 5
+                y: (parent.border.width + 5) +2 * width + 2 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle11
+                x: (parent.border.width + 5) + 2 * width + 2* 5
+                y: (parent.border.width + 5) +2 * width + 2 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle12
+                x: (parent.border.width + 5) + 3* width + 3 * 5
+                y: (parent.border.width + 5) +2 * width + 2 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle13
+                x: (parent.border.width + 5) + 0 * width + 0 * 5
+                y: (parent.border.width + 5) +3 * width + 3 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle14
+                x: (parent.border.width + 5) + 1 * width + 1 * 5
+                y: (parent.border.width + 5) +3 * width + 3 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle15
+                x: (parent.border.width + 5) + 2* width +2 * 5
+                y: (parent.border.width + 5) +3 * width + 3 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
+            }
+
+            Rectangle {
+                id: rectangle16
+                x: (parent.border.width + 5) + 3 * width + 3 * 5
+                y: (parent.border.width + 5) +3 * width + 3 * 5
+                width: (parent.width - parent.border.width*2 - 25) / 4
+                height: width
+                color: "#cdc1b5"
+                border.width: 0
             }
         }
     }

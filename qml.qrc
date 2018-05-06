@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
         <file>Cell.qml</file>
+        <file>gameLogic.js</file>
     </qresource>
 </RCC>
