@@ -36,7 +36,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
         }
         Behavior on opacity {
-            NumberAnimation{properties:"opacity"; duration: 150}
+            NumberAnimation{properties:"opacity"; duration: 200}
         }
     }    
     Behavior on column {
@@ -51,7 +51,7 @@ Item {
             name: "DeathState"
             when: dying == true
             PropertyChanges { target: rectangle; opacity: 0 }
-            StateChangeScript { script: container.destroy(1000); }
+            StateChangeScript { script: container.destroy(500); }
         }
     ]
 
