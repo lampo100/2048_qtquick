@@ -92,15 +92,15 @@ Item {
         }
         opacity: 0
         Behavior on opacity {
-            NumberAnimation{properties:"opacity"; duration: 400}
+            NumberAnimation{properties:"opacity"; duration: 200}
         }
     }    
     Behavior on column {
-        NumberAnimation { duration: 300 }
+        NumberAnimation { duration: 150 }
     }
 
     Behavior on row {
-        NumberAnimation { duration: 300 }
+        NumberAnimation { duration: 150 }
     }
     states: [
         State {
@@ -113,7 +113,7 @@ Item {
             name: "DeathState"
             when: dying == true
             PropertyChanges { target: rectangle; opacity: 0 }
-            //StateChangeScript { script: container.destroy(500); }
+            StateChangeScript { script: container.destroy(500); }
         }
 
 

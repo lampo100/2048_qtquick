@@ -6,7 +6,7 @@ Window {
     visible: true
     width: 360
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("2048")
 
     MainForm {
         Component.onCompleted: {
@@ -16,25 +16,28 @@ Window {
         anchors.fill: parent
         focus: true
         Keys.onPressed: {
-            if (event.key == Qt.Key_R){
+            if (event.key == Qt.Key_R ){
                 GameLogic.startNewGame();
             }
-
-            if (event.key == Qt.Key_A) {
-                GameLogic.left();
-                GameLogic.spawnNewBlock();
+            if (event.key == Qt.Key_A || event.key === Qt.Key_Left) {
+                var result = GameLogic.left();
+                if(result === true)
+                    GameLogic.spawnNewBlock();
             }
-            if(event.key == Qt.Key_D){
-                GameLogic.right();
-                GameLogic.spawnNewBlock();
+            if(event.key == Qt.Key_D || event.key === Qt.Key_Right){
+                var result = GameLogic.right();
+                if(result === true)
+                    GameLogic.spawnNewBlock();
             }
-            if(event.key == Qt.Key_W){
-                GameLogic.up();
-                GameLogic.spawnNewBlock();
+            if(event.key == Qt.Key_W || event.key === Qt.Key_Up){
+                var result = GameLogic.up();
+                if(result === true)
+                    GameLogic.spawnNewBlock();
             }
-            if(event.key == Qt.Key_S){
-                GameLogic.down();
-                GameLogic.spawnNewBlock();
+            if(event.key == Qt.Key_S || event.key === Qt.Key_Down){
+                var result = GameLogic.down();
+                if(result === true)
+                    GameLogic.spawnNewBlock();
             }
         }
     }

@@ -39,7 +39,7 @@ function startNewGame() {
     var r = randomInt(0, 4);
     var c = randomInt(0, 4);
     if(board[index(r, c)] === null)
-        createBlock(1, 1);
+        createBlock(r, c);
 
     var r2 = r;
     var c2 = c;
@@ -48,7 +48,11 @@ function startNewGame() {
         c2 = randomInt(0, 4);
     }
     if(board[index(0, 2)] === null)
-        createBlock(2, 1);
+        createBlock(r2, c2);
+
+    if(Number(rootWindow.score.text) > Number(rootWindow.highScore.text))
+        rootWindow.highScore.text = rootWindow.score.text;
+    rootWindow.score.text = "0";
 }
 
 function createBlock(row, column){
@@ -167,11 +171,12 @@ function left(){
         }
     }
 
-
+    var result = false;
     for (i = 0; i < maxIndex; i++) {
         if (finalDestination[i] !== null){
             startingBoard[i].row = Math.floor(finalDestination[i] / maxRow);
             startingBoard[i].column = finalDestination[i] % maxColumn;
+            result = true;
         }
     }
     for (i = 0; i < blocksToKill.length; i++){
@@ -179,6 +184,7 @@ function left(){
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
+    return result;
 }
 
 function right(){
@@ -275,10 +281,12 @@ function right(){
         }
     }
 
+    var result = false;
     for (i = 0; i < maxIndex; i++) {
         if (finalDestination[i] !== null){
             startingBoard[i].row = Math.floor(finalDestination[i] / maxRow);
             startingBoard[i].column = finalDestination[i] % maxColumn;
+            result = true;
         }
     }
     for (i = 0; i < blocksToKill.length; i++){
@@ -286,6 +294,7 @@ function right(){
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
+    return result;
 }
 
 function up(){
@@ -380,10 +389,12 @@ function up(){
         }
     }
 
+    var result = false;
     for (i = 0; i < maxIndex; i++) {
         if (finalDestination[i] !== null){
             startingBoard[i].row = Math.floor(finalDestination[i] / maxRow);
             startingBoard[i].column = finalDestination[i] % maxColumn;
+            result = true;
         }
     }
     for (i = 0; i < blocksToKill.length; i++){
@@ -391,6 +402,7 @@ function up(){
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
+    return result;
 }
 
 function down(){
@@ -484,10 +496,13 @@ function down(){
             }
         }
     }
+
+    var result = false;
     for (i = 0; i < maxIndex; i++) {
         if (finalDestination[i] !== null){
             startingBoard[i].row = Math.floor(finalDestination[i] / maxRow);
             startingBoard[i].column = finalDestination[i] % maxColumn;
+            result = true;
         }
     }
     for (i = 0; i < blocksToKill.length; i++){
@@ -495,4 +510,5 @@ function down(){
             startingBoard[blocksToKill[i]].dying = true;
         }
     }
+    return result;
 }
