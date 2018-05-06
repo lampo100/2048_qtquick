@@ -2,16 +2,19 @@ import QtQuick 2.6
 
 Item {
     id: container
+
     property real row: 0
     property real column: 0
     width: (parent.width - parent.border.width*2 - 25) / 4
     height: width
     x: (parent.border.width + 5) + column * width + column * 5
     y: (parent.border.width + 5) + row * width + row * 5
-    property bool running: false
+
     property color color: "#ffffff"
     property int score: 2
     property bool dying: false
+    property bool spawned: false
+
     Rectangle {
         id: rectangle
         border.color: "black"
@@ -35,24 +38,33 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }
+        opacity: 0
         Behavior on opacity {
-            NumberAnimation{properties:"opacity"; duration: 200}
+            NumberAnimation{properties:"opacity"; duration: 400}
         }
     }    
     Behavior on column {
-        NumberAnimation { duration: 150 }
+        NumberAnimation { duration: 300 }
     }
 
     Behavior on row {
-        NumberAnimation { duration: 150 }
+        NumberAnimation { duration: 300 }
     }
     states: [
+        State {
+            name: "AliveState"
+            when: spawned == true && dying == false
+            PropertyChanges {target: rectangle; opacity: 1}
+        },
+
         State {
             name: "DeathState"
             when: dying == true
             PropertyChanges { target: rectangle; opacity: 0 }
-            StateChangeScript { script: container.destroy(500); }
+            //StateChangeScript { script: container.destroy(500); }
         }
+
+
     ]
 
 }

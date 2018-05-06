@@ -40,7 +40,7 @@ function startNewGame() {
     var c = randomInt(0, 4);
     console.log(String(r) + " " + String(c));
     if(board[index(r, c)] === null)
-        createBlock(0, 1);
+        createBlock(1, 1);
 
     var r2 = r;
     var c2 = c;
@@ -50,13 +50,13 @@ function startNewGame() {
     }
     console.log(String(r2) + " " + String(c2));
     if(board[index(0, 2)] === null)
-        createBlock(0, 2);
+        createBlock(2, 1);
 }
 
 function createBlock(row, column){
     if (component == null)
             component = Qt.createComponent("./Cell.qml");
-    var dynamicObject = component.createObject(rootWindow.gameBoard, {"row": row, "column": column, "score": randomScore()});
+    var dynamicObject = component.createObject(rootWindow.gameBoard, {"row": row, "column": column, "score": randomScore(), "spawned": true});
     if (dynamicObject == null) {
         console.log("error creating block");
         return false;
@@ -336,3 +336,250 @@ function right(){
     }
 }
 
+function up(){
+    var finalDestination = new Array(maxIndex)
+    for (var i = 0; i < maxIndex; i++) {
+        finalDestination[i] = null;
+    }
+
+    var blocksToKill = new Array(0);
+
+    var startingBoard = new Array(maxIndex);
+    for(i = 0; i < maxIndex; i++){
+        startingBoard[i] = board[i];
+    }
+    // First phase
+    var currentTile;
+    for(var k = 0; k < 4; k++){
+        for(i = 0; i < 4; i++){
+            if(board[index(i, k)] !== null){
+                currentTile = board[index(i, k)];
+                for(var j = 0; j < i; j++)
+                    if(board[index(j, k)] === null){
+                        if(finalDestination[index(i, k)] === null)
+                        finalDestination[index(i, k)] = index(j, k);
+                        board[index(j, k)] = currentTile;
+                        board[index(i, k)] = null;
+                        console.log("FD[" + String(index(i, k)) + "] to " + String(j) + "," + String(k))
+                        break;
+                    }
+            }
+        }
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(board[k] !== null)
+            console.log(k);
+    }
+
+    for(k = 0; k < 4; k++){
+        for(i = 0; i < 3; i++){
+            if(board[index(i, k)] !== null){
+                currentTile = board[index(i, k)];
+                if(board[index(i+1, k)] !== null && board[index(i+1, k)].score == currentTile.score){
+                    var found = false;
+                    // First we should check if the block that is being absorbed has been already moved. If so then we need to change his final destination AT THE ORIGINAL PLACE IN ARRAY
+                    for(var z = 0; z < maxIndex; z++){
+                        if(finalDestination[z] === index(i+1, k)){
+                            found = true;
+                            finalDestination[z] = index(i, k);
+                            blocksToKill.push(z);
+                            break;
+                        }
+                    }
+                    // If we haven't found such a block then that means that we are moving it for the first time
+                    if(found === false){
+                        finalDestination[index(i+1, k)] = index(i, k);
+                        blocksToKill.push(index(i+1, k));
+                    }
+                    board[index(i+1, k)] = null;
+
+                    //Also double the score
+                    board[index(i, k)].score *= 2;
+                }
+            }
+        }
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(board[k] !== null)
+            console.log("Board[after2]: " + k);
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(finalDestination[k] !== null)
+            console.log("FD[after2](index:" + k + "): " + finalDestination[k]);
+    }
+    // THIRD PHASE
+    for(k = 0; k < 4; k++){
+        for(i = 0; i < 4; i++){
+            if(board[index(i, k)] !== null){
+                currentTile = board[index(i, k)];
+                for(j = 0; j < i; j++)
+                    if(board[index(j, k)] === null){
+                        found = false;
+                        for(z = 0; z < maxIndex; z++){
+                            if(finalDestination[z] === index(i, k)){
+                                finalDestination[z] = index(j, k);
+                                for (var p = 0; p < blocksToKill.length; p++){
+                                    if(blocksToKill[p] !== null)
+                                        if(blocksToKill[p] === z){
+                                            finalDestination[index(i, k)] = index(j, k);
+                                        }
+                                }
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found === false)
+                            finalDestination[index(i, k)] = index(j, k);
+                        board[index(j, k)] = currentTile;
+                        board[index(i, k)] = null;
+                        break;
+                    }
+            }
+        }
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(board[k] !== null)
+            console.log("Board[after3]: " + k);
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(finalDestination[k] !== null)
+            console.log("FD[after3](index:" + k + "): " + finalDestination[k]);
+    }
+
+    for (i = 0; i < maxIndex; i++) {
+        if (finalDestination[i] !== null){
+            startingBoard[i].row = Math.floor(finalDestination[i] / maxRow);
+            startingBoard[i].column = finalDestination[i] % maxColumn;
+        }
+    }
+    for (i = 0; i < blocksToKill.length; i++){
+        if(blocksToKill[i] !== null){
+            console.log("Killing: " + blocksToKill[i]);
+            startingBoard[blocksToKill[i]].dying = true;
+        }
+    }
+}
+
+function down(){
+    var finalDestination = new Array(maxIndex)
+    for (var i = 0; i < maxIndex; i++) {
+        finalDestination[i] = null;
+    }
+
+    var blocksToKill = new Array(0);
+
+    var startingBoard = new Array(maxIndex);
+    for(i = 0; i < maxIndex; i++){
+        startingBoard[i] = board[i];
+    }
+    // First phase
+    var currentTile;
+    for(var k = 0; k < 4; k++){
+        for(i = 3; i >= 0; i--){
+            if(board[index(i, k)] !== null){
+                currentTile = board[index(i, k)];
+                for(var j = 3; j > i; j--)
+                    if(board[index(j, k)] === null){
+                        if(finalDestination[index(i, k)] === null)
+                        finalDestination[index(i, k)] = index(j, k);
+                        board[index(j, k)] = currentTile;
+                        board[index(i, k)] = null;
+                        break;
+                    }
+            }
+        }
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(board[k] !== null)
+            console.log(k);
+    }
+
+    for(k = 0; k < 4; k++){
+        for(i = 3; i > 0; i--){
+            if(board[index(i, k)] !== null){
+                currentTile = board[index(i, k)];
+                if(board[index(i-1, k)] !== null && board[index(i-1, k)].score == currentTile.score){
+                    var found = false;
+                    // First we should check if the block that is being absorbed has been already moved. If so then we need to change his final destination AT THE ORIGINAL PLACE IN ARRAY
+                    for(var z = 0; z < maxIndex; z++){
+                        if(finalDestination[z] === index(i-1, k)){
+                            found = true;
+                            finalDestination[z] = index(i, k);
+                            blocksToKill.push(z);
+                            break;
+                        }
+                    }
+                    // If we haven't found such a block then that means that we are moving it for the first time
+                    if(found === false){
+                        finalDestination[index(i-1, k)] = index(i, k);
+                        blocksToKill.push(index(i-1, k));
+                    }
+                    board[index(i-1, k)] = null;
+
+                    //Also double the score
+                    board[index(i, k)].score *= 2;
+                }
+            }
+        }
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(board[k] !== null)
+            console.log("Board[after2]: " + k);
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(finalDestination[k] !== null)
+            console.log("FD[after2](index:" + k + "): " + finalDestination[k]);
+    }
+
+    // THIRD PHASE
+    for(k = 0; k < 4; k++){
+        for(i = 3; i >= 0; i--){
+            if(board[index(i, k)] !== null){
+                currentTile = board[index(i, k)];
+                for(j = 3; j > i; j--)
+                    if(board[index(j, k)] === null){
+                        found = false;
+                        for(z = 0; z < maxIndex; z++){
+                            if(finalDestination[z] === index(i, k)){
+                                finalDestination[z] = index(j, k);
+                                for (var p = 0; p < blocksToKill.length; p++){
+                                    if(blocksToKill[p] !== null)
+                                        if(blocksToKill[p] === z){
+                                            finalDestination[index(i, k)] = index(j, k);
+                                        }
+                                }
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found === false)
+                            finalDestination[index(i, k)] = index(j, k);
+                        board[index(j, k)] = currentTile;
+                        board[index(i, k)] = null;
+                        break;
+                    }
+            }
+        }
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(board[k] !== null)
+            console.log("Board[after3]: " + k);
+    }
+    for(k = 0; k < maxIndex; k++){
+        if(finalDestination[k] !== null)
+            console.log("FD[after3](index:" + k + "): " + finalDestination[k]);
+    }
+
+    for (i = 0; i < maxIndex; i++) {
+        if (finalDestination[i] !== null){
+            startingBoard[i].row = Math.floor(finalDestination[i] / maxRow);
+            startingBoard[i].column = finalDestination[i] % maxColumn;
+        }
+    }
+    for (i = 0; i < blocksToKill.length; i++){
+        if(blocksToKill[i] !== null){
+            console.log("Killing: " + blocksToKill[i]);
+            startingBoard[blocksToKill[i]].dying = true;
+        }
+    }
+}

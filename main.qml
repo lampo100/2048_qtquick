@@ -30,6 +30,16 @@ Window {
                 GameLogic.right();
                 GameLogic.spawnNewBlock();
             }
+            if(event.key == Qt.Key_W){
+                console.log("move up");
+                GameLogic.up();
+                GameLogic.spawnNewBlock();
+            }
+            if(event.key == Qt.Key_S){
+                console.log("move down");
+                GameLogic.down();
+                GameLogic.spawnNewBlock();
+            }
         }
     }
 
